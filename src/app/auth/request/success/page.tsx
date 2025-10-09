@@ -11,29 +11,29 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CheckCircle2, Mail, Clock, AlertCircle } from "lucide-react";
+import { CheckCircle2, Mail } from "lucide-react";
 
 export default function SuccessPage() {
   const router = useRouter();
   const { baseData, reset } = useRegistrationStore();
   const [isValid, setIsValid] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false);
 
   useEffect(() => {
+    if (isNavigating) return;
+
     if (!baseData?.email) {
       router.push("/auth/request");
       return;
     }
-
     setIsValid(true);
+  }, [baseData, router, isNavigating]);
 
-    const timer = setTimeout(() => {
-      reset();
-    }, 100);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [baseData, router, reset]);
+  const handleReturnHome = () => {
+    setIsNavigating(true);
+    reset();
+    router.push("/");
+  };
 
   if (!isValid || !baseData) {
     return (
@@ -79,45 +79,10 @@ export default function SuccessPage() {
                 </p>
               </div>
             </div>
-
-            <div className="flex items-start gap-4 p-4 rounded-lg bg-muted/50 animate-in slide-in-from-bottom-3 duration-700">
-              <Clock className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-semibold">What Happens Next?</p>
-                <ul className="text-sm text-muted-foreground list-disc list-inside space-y-1 mt-2">
-                  <li>Our admin team will review your request.</li>
-                  <li>
-                    You&apos;ll receive an email once your request is processed.
-                  </li>
-                  <li>Review typically takes 1-3 business days.</li>
-                  <li>
-                    If approved, your login credentials will be sent to your
-                    email.
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 p-4 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900 animate-in slide-in-from-bottom-4 duration-1000">
-              <AlertCircle className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-semibold text-blue-900 dark:text-blue-100">
-                  Important Notes
-                </p>
-                <ul className="text-sm text-blue-800 dark:text-blue-200 list-disc list-inside space-y-1 mt-2">
-                  <li>Please keep this email address active for updates.</li>
-                  <li>You can only have one pending request at a time.</li>
-                  <li>
-                    Contact support if you need to update your request
-                    information.
-                  </li>
-                </ul>
-              </div>
-            </div>
           </div>
 
           <div className="pt-4 space-y-3">
-            <Button onClick={() => router.push("/")} className="w-full">
+            <Button onClick={handleReturnHome} className="w-full">
               Return to Home
             </Button>
           </div>

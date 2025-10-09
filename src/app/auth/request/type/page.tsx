@@ -14,7 +14,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import {
   User,
   FlaskConical,
@@ -25,7 +24,7 @@ import {
 
 export default function RoleSelectionPage() {
   const router = useRouter();
-  const { baseData, setBaseData, reset } = useRegistrationStore();
+  const { baseData, setBaseData } = useRegistrationStore();
   const [selectedRole, setSelectedRole] = useState<
     "user" | "researcher" | null
   >(null);
@@ -61,7 +60,6 @@ export default function RoleSelectionPage() {
           about: baseData.about || "",
           consentGiven: baseData.consentGiven || false,
         });
-        reset();
         router.push("/auth/request/success");
       } catch (error: unknown) {
         handleError(error, { email: baseData.email });
@@ -106,7 +104,7 @@ export default function RoleSelectionPage() {
                 <CardTitle className="text-2xl">Regular User</CardTitle>
                 <CardDescription>Standard platform access</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">{/* ... */}</CardContent>
+              <CardContent className="space-y-4"></CardContent>
             </Card>
 
             <Card
@@ -127,7 +125,7 @@ export default function RoleSelectionPage() {
                 <CardTitle className="text-2xl">Researcher</CardTitle>
                 <CardDescription>Enhanced academic access</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">{/* ... */}</CardContent>
+              <CardContent className="space-y-4"></CardContent>
             </Card>
           </div>
 
