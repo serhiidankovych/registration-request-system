@@ -1,36 +1,158 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Registration Request System (MVP)
 
-## Getting Started
+A full-stack web application built with **Next.js**, **TypeScript**, **Tailwind CSS**, **ShadCN UI**, and **MongoDB** that implements a moderated registration workflow with role selection, admin approval, password hashing, and email notification.
 
-First, run the development server:
+<img width="1917" height="842" alt="image" src="https://github.com/user-attachments/assets/79ae1b47-a0d3-4d41-a8d0-879dcd1ea50b" />
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌐 Live Demo
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Web App:**
+[https://registration-request-system.vercel.app/](https://registration-request-system.vercel.app/)
 
-## Learn More
+**Login Page (Admin & User Panel):**
+[https://registration-request-system.vercel.app/auth/login](https://registration-request-system.vercel.app/auth/login)
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 Admin Access (Demo)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+You can log in as an administrator using:
 
-## Deploy on Vercel
+* **Login:** `admin@example.com`
+* **Password:** `admin123`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+You can access both:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+* **Admin panel**
+* **User panel**
+
+via:
+[https://registration-request-system.vercel.app/auth/login](https://registration-request-system.vercel.app/auth/login)
+
+> ⚠️ Demo credentials are for testing purposes only.
+> ⚠️ Note: The MongoDB Atlas cluster may automatically pause due to inactivity (free tier behavior). If the application does not load or authentication fails, please contact me so I can restart the cluster for testing.
+
+
+---
+
+
+## 🚀 Tech Stack
+
+### Core
+
+* **Next.js 15**
+* **TypeScript**
+* **MongoDB + Mongoose**
+* **Tailwind CSS v4**
+* **ShadCN UI**
+* **Zod (validation)**
+
+### Authentication & Security
+
+* **NextAuth.js**
+* **JWT (jsonwebtoken)**
+* **bcryptjs (password hashing)**
+
+### Forms & State
+
+* **React Hook Form**
+* **Zod Resolver**
+* **Zustand**
+* **TanStack React Query**
+
+### Email Service
+
+* **EmailJS** (`@emailjs/browser`) for sending credentials after approval
+
+### Deployment
+
+* **Vercel**
+* **MongoDB Atlas**
+
+---
+
+## 📌 Features (MVP Scope)
+
+### 1️⃣ Public Registration Request Flow
+
+#### `/auth/request`
+
+Basic form:
+
+* Full name
+* Email
+* Phone number
+* About section
+* Consent checkbox
+
+<img width="1919" height="910" alt="image" src="https://github.com/user-attachments/assets/114c249e-8be8-4e56-aab2-2d75c0090929" />
+
+
+#### `/auth/request/type`
+
+Role selection:
+
+* **User**
+* **Researcher**
+<img width="1920" height="634" alt="image" src="https://github.com/user-attachments/assets/f21375d6-29c7-4a14-94e9-faa08234e046" />
+
+#### `/auth/request/researcher`
+
+Extended form (Researcher only):
+
+* Passport fields
+* Director’s application (URL for MVP)
+
+<img width="1919" height="903" alt="image" src="https://github.com/user-attachments/assets/052096cd-9cd0-4834-8e7e-40aceb434215" />
+
+---
+
+### 2️⃣ Request API
+
+* Create registration request
+* Get all requests (admin/staff)
+* Get request details
+* Approve request (admin/staff)
+* Reject request (admin/staff)
+<img width="1919" height="793" alt="image" src="https://github.com/user-attachments/assets/514f94f5-7e35-4276-b7f1-34f156f61883" />
+---
+
+### 3️⃣ Moderation Workflow
+
+1. User submits registration request
+2. Admin reviews the request
+3. Admin approves or rejects it
+4. If approved:
+
+   * System generates a password
+   * Password is hashed using **bcrypt**
+   * User is created in database
+   * Credentials are sent via **EmailJS**
+<img width="400" height="500" alt="image" src="https://github.com/user-attachments/assets/29b9f30e-63bd-4594-a690-66d78b036511" />
+
+---
+
+## 🔐 Security
+
+* Passwords are **never stored in plain text**
+* The `password` field always contains a **bcrypt hash**
+* Role-based access control (admin / staff / user / researcher)
+* Email uniqueness enforced in MongoDB
+* Protected admin routes
+
+---
+
+
+## 🎯 Project Goal
+
+This project demonstrates:
+
+* Moderated user onboarding
+* Role-based registration workflow
+* Secure password handling with hashing
+* Email-based credential delivery
+* Clean modular architecture
+* Production deployment on Vercel
